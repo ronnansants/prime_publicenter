@@ -1,0 +1,25 @@
+{
+  "name": "prime_publicenter",
+  "version": "1.0.0",
+  "description": "Sistema para preparar arquivos de importação de peças e manutenções do site prime beneficios e importar no sistema Governa Publicenter SCOF",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ronnansants/prime_publicenter.git"
+  },
+  "keywords": [
+    "prime",
+    "primebeneficios",
+    "publicenter",
+    "SCOF"
+  ],
+  "author": "Ronnan Santos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ronnansants/prime_publicenter/issues"
+  },
+  "homepage": "https://github.com/ronnansants/prime_publicenter#readme"
+}
