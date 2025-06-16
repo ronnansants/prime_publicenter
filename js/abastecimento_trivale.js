@@ -68,5 +68,4 @@ function processCSV(file) {
     "Data de Vencimento",
     "Desconto",
   ];
-  
 }
