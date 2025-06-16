@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>XLSX Reader and Converter</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    margin: 0;
+    padding: 32px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-weight: 600;
+    margin-bottom: 24px;
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .container {
+    background: #ffffff;
+    padding: 24px 32px;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 8px 24px #9a982d44;
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+  }
+
+  input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #cbd5e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline-offset: 2px;
+    outline-color: #3182ce;
+  }
+
+  button {
+    margin-top: 24px;
+    width: 100%;
+    background: linear-gradient(135deg, #3182ce, #2c5282);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+  }
+
+  button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #2c5282, #3182ce);
+  }
+
+  .info {
+    margin-top: 16px;
+    font-size: 0.95rem;
+    color: #4a5568;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <h1>XLSX Reader and Converter</h1>
+  <div class="container">
+    <label for="fileInput">Select XLSX file to process</label>
+    <input type="file" id="fileInput" accept=".xlsx" aria-describedby="info" />
+    <button id="processBtn" disabled>Process and Download</button>
+    <div class="info" id="info">Please select a valid XLSX file to enable processing.</div>
+  </div>
+
+  <!-- SheetJS CDN -->
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/shim.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+
+  <script>
+    (function() {
+      const fileInput = document.getElementById('fileInput');
+      const processBtn = document.getElementById('processBtn');
+      const info = document.getElementById('info');
+      let rawWorkbook = null;
+      let rawSheetName = null;
+      let rawSheet = null;
+
+      // The expected columns, in order or by header name normalized to lower case
+      const expectedFields = [
+        'ordem dos itens',
+        'data com hora',
+        'filial',
+        'centro de resultado',
+        'centro de custo',
+        'numero frota',
+        'tipo de frota',
+        'nome fantasia',
+        'razao social',
+        'cnpj',
+        'terminal',
+        'endereço',
+        'bairro',
+        'cidade',
+        'estado',
+        'telefone',
+        'email',
+        'motorista',
+        'modelo',
+        'hodometro',
+        'distancia',
+        'produto',
+        'quantidade',
+        'valor unitario',
+        'valor total',
+        'taxa',
+        'numero da nota',
+        'data da emissao',
+        'data de vencimento',
+        'desconto'
+      ];
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) {
+          processBtn.disabled = true;
+          info.textContent = 'Please select a valid XLSX file to enable processing.';
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          try {
+            rawWorkbook = XLSX.read(ev.target.result, { type: 'binary' });
+            rawSheetName = rawWorkbook.SheetNames[0];
+            rawSheet = rawWorkbook.Sheets[rawSheetName];
+            processBtn.disabled = false;
+            info.textContent = 'File loaded. Click "Process and Download" to convert.';
+          } catch (err) {
+            processBtn.disabled = true;
+            info.textContent = 'Error reading file: ' + err.message;
+          }
+        };
+        reader.readAsBinaryString(file);
+      });
+
+      processBtn.addEventListener('click', () => {
+        if (!rawSheet) return;
+
+        const jsonData = XLSX.utils.sheet_to_json(rawSheet, { defval: '' });
+        if (jsonData.length === 0) {
+          info.textContent = 'No data found in the sheet.';
+          return;
+        }
+
+        // Normalize keys and keep only expected fields with exact matching ignoring case and accents/spaces
+        // Build a map from normalized header to original header for output consistency
+
+        // Normalize function: lowercase, trim, remove accents, spaces replaced by space normalized
+        function normalizeKey(key) {
+          return key.toString()
+            .toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+        }
+
+        // Create a map of normalized keys in input for validation
+        const firstRow = jsonData[0];
+        const keys = Object.keys(firstRow);
+        const normalizedInputKeys = keys.map(k => normalizeKey(k));
+
+        // Find mapping from expectedFields to actual keys in sheet (case/space/accents insensitive)
+        const fieldToSheetKeyMap = {};
+        expectedFields.forEach(field => {
+          const normField = normalizeKey(field);
+          const foundIndex = normalizedInputKeys.findIndex(k => k === normField);
+          if (foundIndex !== -1) {
+            fieldToSheetKeyMap[field] = keys[foundIndex];
+          } else {
+            fieldToSheetKeyMap[field] = null;
+          }
+        });
+
+        // Filter out missing columns (will output empty if missing)
+        // Build processed data with only expected fields and in the expected order
+        const processedData = jsonData.map(row => {
+          const resultRow = {};
+          expectedFields.forEach(field => {
+            const key = fieldToSheetKeyMap[field];
+            resultRow[field] = key && row.hasOwnProperty(key) ? row[key] : '';
+          });
+          return resultRow;
+        });
+
+        // Create new workbook and worksheet with processed data
+        const newWs = XLSX.utils.json_to_sheet(processedData, { skipHeader: false });
+
+        // Add header row in expected order with proper capitalization
+        // Remove default sheet headers, then add desired header row explicitly
+        XLSX.utils.sheet_add_aoa(newWs, [expectedFields], { origin: 'A1' });
+
+        // Create new workbook and append worksheet
+        const newWb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(newWb, newWs, 'ProcessedData');
+
+        // Write workbook to binary string
+        const wbout = XLSX.write(newWb, { bookType: 'xlsx', type: 'array' });
+
+        // Create blob and trigger download
+        const blob = new Blob([wbout], { type: "application/octet-stream" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'processed_data.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+
+        info.textContent = 'Download started for processed_data.xlsx';
+      });
+    })();
+  </script>
+</body>
+</html>
+
