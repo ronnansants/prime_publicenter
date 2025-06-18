@@ -4,32 +4,32 @@
 Data	                ---- Data do Abastecimento 
 Filial	                ---- Administração do abastecimento
 Centro de Resultado	---- Alocação de abastecimento 
-Centro de Custo	        ---- Centro de Custo contabil
-Número Frota	        ---- Numero na frota (pode ser vazio)
+Centro de Custo	        ---- Centro de Custo contabil   ??????????
+Número Frota	        ---- Numero na frota (pode ser vazio) ????????????????
 Tipo de Frota	        ---- Prorio ou Terceirizado 
 Nome Fantasia	        ---- Nome Fantasia do posto que realizou o abastecimento
 Razão Social	        ---- Razão Social do posto que realizou o abastecimento
 CNPJ	                ---- CNPJ do posto que realizou o abastecimento
-Terminal	        ---- Terminal do abastecimento
+Terminal	        ---- Terminal do abastecimento ????????????????????????????
 Endereço	        ---- Logradouro do Posto que realizou o abastecimento 
 Bairro	                ---- Bairro do Posto que realizou o abastecimento 
 Cidade	                ---- Cidade do Posto que realizou o abastecimento 
 Estado	                ---- Estado da Federação do Posto que realizou o abastecimento 
-Telefone	        ---- Telefone do Posto que realizou o abastecimento 
-Email	                ---- Email do Posto que realizou o abastecimento 
+Telefone	        ---- Telefone do Posto que realizou o abastecimento ??????????????????????????
+Email	                ---- Email do Posto que realizou o abastecimento ????????????????????????
 Motorista	        ---- Nome do motorista
 Modelo	                ---- Placa / modelo
 Hodômetro	        ---- Quilometragem de abastecimento
-Distância	        ---- ***************dist 
+Distância	        ---- ***************dist  ???????????????????????????????????
 Produto	                ---- Descrição do item 
 Quantidade	        ---- Quantidade do Item 
 Valor Unitário	        ---- Valor unitário do Item
 Valor Total	        ---- Valor total do Item
 Taxa	                ---- sempre 0
-Número da Nota	        ---- Numero da nota fiscal
-Data de Emissão	        ---- Data da emissão da Nota
-Data de Vencimento	---- Data do vencimento da nota  
-Desconto                ---- Desconto se houver
+Número da Nota	        ---- Numero da nota fiscal ???????????????????????????
+Data de Emissão	        ---- Data da emissão da Nota ???????????????????????????
+Data de Vencimento	---- Data do vencimento da nota  ???????????????????????????
+Desconto                ---- Desconto se houver ??????????????????????????????
 */
 
 const csv = require("fast-csv");
@@ -69,3 +69,18 @@ function processCSV(file) {
     "Desconto",
   ];
 }
+
+
+
+
+
+
+const iptNumeroNota = document.querySelectorAll("table:first-of-type tbody tr input.dado3");
+// Itera sobre cada input e adiciona o evento de entrada
+iptNumeroNota.forEach((input) => {
+  input.addEventListener("input", (el) => {
+    // Remove tudo que não for dígito
+    
+    input.value = el.target.value.replace(/[^0-9]/g, ""); // Corrigido para remover tudo que não for número
+  });
+});
