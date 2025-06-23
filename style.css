@@ -102,10 +102,10 @@ h2{
   margin: 20px;
   color: var(--yellow-200);
 }
-.cabecalhoCampo{
+.bodyCampo, input.form-control{
   text-align: center;
+  text-transform: uppercase;
 }
-
 
 
 /* .row {

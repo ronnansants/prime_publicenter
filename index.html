@@ -20,9 +20,10 @@
         >
         <input
           type="file"
-          id="arquivoVale"
+          id="iptArquivoVale"
           accept=".xlsm, .xlsb, .xls, .xlsx, .csv"
         />
+        <button id="btArquivo" class="botaoArquivo">Prosseguir</button>
       </div>
       <div class="avisos">
         <span>Aviso</span>
@@ -41,166 +42,35 @@
     </div>
     <div class="row preencherCampos">
       <h2>Preencher Campos</h2>
-      <div class="col-12">
-        <p class="cabecalhoCampo">CENTRO DE CUSTO</p>
-        <table class="table table-dark  table-striped table-hover">
+      <div class="container">
+        <table class="col-12">
           <thead>
-            <tr>
-              <th class="titulo1">Centro de resultado</th>
-              <th class="titulo2">Centro de custo</th>
-              <th class="titulo3">Numero NF</th>
-              <th class="titulo4">Data emissão NF</th>
-              <th class="titulo5">Data vencimento NF</th>
-              <th class="titulo6">Desconto NF</th>
-            </tr>
+            <th class="col-4">CENTRO DE CUSTO</th>
+            <th class="col-3">NOTA FISCAL</th>
+            <th class="col-2">DATA DE EMISSÃO</th>
+            <th class="col-2">DATA DE VENCIMENTO</th>
+            <th class="col-1">DESCONTO</th>
           </thead>
           <tbody>
             <tr>
-              <td class="dado1">CENTRO DE RESULTADO</td>
-              <td class="dado2">
-                <input type="text" class="form-control" />
+              <td class="bodyCampo">oi</td>
+              <td class="bodyCampo">
+                <input type="number" name="notaFiscal" class="form-control" value="0">
               </td>
-              <td class="dado3">
-                <input type="text" class="form-control"/>
+              <td class="bodyCampo">
+                <input type="date" name="dtEmissao" class="form-control">
               </td>
-              <td class="dado4">
-                <input type="date" class="form-control" />
+              <td class="bodyCampo">
+                <input type="date" name="dtVencimento" class="form-control">
               </td>
-              <td class="dado5">
-                <input type="date" class="form-control" />
-              </td>
-              <td class="dado6">
-                <input type="number" class="form-control" inputmode="numeric" value="0,00"/>
-              </td>
-            </tr>
-            <tr>
-              <td class="dado1">CENTRO DE RESULTADO</td>
-              <td class="dado2">
-                <input type="text" class="form-control" />
-              </td>
-              <td class="dado3">
-                <input type="text" class="form-control"/>
-              </td>
-              </td>
-              <td class="dado4">
-                <input type="date" class="form-control" />
-              </td>
-              <td class="dado5">
-                <input type="date" class="form-control" />
-              </td>
-              <td class="dado6">
-                <input type="number" class="form-control" inputmode="numeric" value="0,00"/>
-              </td>
-            </tr>
-            <tr>
-              <td class="dado1">CENTRO DE RESULTADO</td>
-              <td class="dado2">
-                <input type="text" class="form-control" />
-              </td>
-              <td class="dado3">
-                <input type="text" class="form-control"/>
-              </td>
-              </td>
-              <td class="dado4">
-                <input type="date" class="form-control" />
-              </td>
-              <td class="dado5">
-                <input type="date" class="form-control" />
-              </td>
-              <td class="dado6">
-                <input type="number" class="form-control" inputmode="numeric" value="0,00"/>
-              </td>
-            </tr>
-            <tr>
-              <td class="dado1">CENTRO DE RESULTADO</td>
-              <td class="dado2">
-                <input type="text" class="form-control" />
-              </td>
-              <td class="dado3">
-                <input type="text" class="form-control"/>
-              </td>
-              </td>
-              <td class="dado4">
-                <input type="date" class="form-control" />
-              </td>
-              <td class="dado5">
-                <input type="date" class="form-control" />
-              </td>
-              <td class="dado6">
-                <input type="number" class="form-control" inputmode="numeric" value="0,00"/>
+              <td class="bodyCampo">
+                <input type="tel" class="form-control" name="desconto" value="0.00">
               </td>
             </tr>
           </tbody>
         </table>
-      </div>
-      <div class="col-4">
-        <p class="cabecalhoCampo">NUMERO DA FROTA</p>
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="titulo1">oi</th>
-              <th class="titulo2">DESCRIÇÃO</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="tabelaCampo">1</td>
-            </tr>
-            <tr>
-              <td class="tabelaCampo">2</td>
-            </tr>
-            <tr>
-              <td class="tabelaCampo">3</td>
-            </tr>
-            <tr>
-              <td class="tabelaCampo">4</td>
-            </tr>
-            <tr>
-              <td class="tabelaCampo">5</td>
-            </tr>
-            <tr>
-              <td class="tabelaCampo">6</td>
-            </tr>
-            <tr>
-              <td class="tabelaCampo">7</td>
-            </tr>
-            <tr>
-              <td class="tabelaCampo">8</td>
-            </tr>
-            <tr>
-              <td class="tabelaCampo">9</td>
-            </tr>
-            <tr>
-              <td class="tabelaCampo">10</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-4">
-        <p class="cabecalhoCampo">TERMINAL DO ESTABELECIMENTO</p>
-      </div>
-      <div class="col-4">
-        <p class="cabecalhoCampo">TELEFONE DO ESTABELECIMENTO</p>
-      </div>
-      <div class="col-4">
-        <p class="cabecalhoCampo">EMAIL DO ESTABELECIMENTO</p>
-      </div>
-      <div class="col-4">
-        <p class="cabecalhoCampo">NUMERO DA NOTA FISCAL</p>
-      </div>
-      <div class="col-4">
-        <p class="cabecalhoCampo">DATA DE EMISSÃO DA NOTA FISCAL</p>
-      </div>
-      <div class="col-4">
-        <p class="cabecalhoCampo">DATA DE VENCIMENTO DA NOTA FISCAL</p>
-      </div>
-      <div class="col-4">
-        <p class="cabecalhoCampo">DESCONTO DA NOTA FISCAL</p>
-        <span class="badge bg-danger opacity-75 text-capitalize"
-          >(Se não tiver pode deixar em branco)</span
-        >
       </div>
     </div>
   </body>
-  <script src="js/abastecimento_trivale.js"></script>
+<script src="js/abastecimento_trivale.js"></script>
 </html>

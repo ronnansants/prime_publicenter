@@ -34,7 +34,10 @@ Desconto                ---- Desconto se houver ??????????????????????????????
 
 const csv = require("fast-csv");
 const fs = require("fs");
-const arqTrivale = document.getElementById("arquivoPrime").files[0];
+const path = require("path");
+
+let caminho = path.join(__dirname, 'dados', "abastecimento_trivale.csv");
+console.log("Caminho do arquivo CSV:", caminho);
 
 function processCSV(file) {
   const cabecalhoFinal = [
@@ -73,7 +76,32 @@ function processCSV(file) {
 
 
 
+const btProcessar = document.getElementById("btArquivo");
+btProcessar.addEventListener("click", () => {
+  const arqTrivale = document.getElementById("iptArquivoVale").files[0];
+  if (arqTrivale) {
+    const leitor = new FileReader();
+    leitor.onload = (event) => {
+      const conteudo = event.target.result;
+      const linhas = conteudo.split("\n");
+      const dados = linhas.map((linha) => linha.split(";"));
+      const cabecalho = dados[0];
+      const dadosProcessados = dados.slice(1).map((linha) => {
+        return linha.reduce((obj, valor, index) => {
+          obj[cabecalho[index]] = valor;
+          return obj;
+        }, {});
+      });
 
+      // Aqui você pode fazer algo com os dados processados, como exibir no console
+      console.log(dadosProcessados);
+    };
+    leitor.readAsText(arqTrivale);
+  } else {
+    alert("Por favor, selecione um arquivo CSV.");
+    document.getElementById("iptArquivoVale").target.click();
+  }
+});
 
 const iptNumeroNota = document.querySelectorAll("table:first-of-type tbody tr input.dado3");
 // Itera sobre cada input e adiciona o evento de entrada
