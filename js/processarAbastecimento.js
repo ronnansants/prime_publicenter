@@ -1,3 +1,38 @@
+// IMPRIMIR ARQUIVO CONFERENCIA DE NOTA FISCAL
+
+const camposMapeado = {
+  "DATA": "Data",
+  "FILIAL": "Filial",
+  "CENTRO RESULTADO": "Centro de Resultado",
+  "CENTRO CUSTO": "Centro de Custo",
+  "NUMERO FROTA": "Número Frota",
+  "TIPOFROTA": "Tipo de Frota",
+  "NOME FANTASIA": "Nome Fantasia",
+  "RAZAO SOCIAL": "Razão Social",
+  "CNPJ": "CNPJ",
+  "TERMINAL": "Terminal",
+  "ENDERECO": "Endereço",
+  "BAIRRO": "Bairro",
+  "CIDADE": "Cidade",
+  "ESTADO": "Estado",
+  "TELEFONE": "Telefone",
+  "EMAIL": "Email",
+  "MOTORISTA": "Motorista",
+  "DESCRICAO": "Modelo",
+  "HODOMETRO": "Hodômetro",
+  "DISTANCIA": "Distância",
+  "PRODUTO": "Produto",
+  "QUANTIDADE": "Quantidade",
+  "VALOR UNITARIO": "Valor Unitário",
+  "VALOR TOTAL": "Valor Total",
+  "TAXA": "Taxa",
+  "NUMERO NOTA": "Número da Nota",
+  "DATA EMISSAO": "Data de Emissão",
+  "DATA VENCIMENTO": "Data de Vencimento",
+  "DESCONTO": "Desconto"
+};
+
+
 const mapeando = {
     "DATA": "Data",
     "FILIAL": "Filial",
@@ -41,6 +76,17 @@ const camposObrigatorios = [
     "Taxa",
     "Número da Nota"
 ];
+const XLSX = require('xlsx');
+
+function processarArquivo(arquivo) {
+    try{
+        let wb = XLSX.read(arquivo, { type: 'string' });
+        let aba = wb.SheetNames[0];
+        
+    }catch (e){
+
+    }
+}
 
 const btProcessar = document.getElementById("btArquivo");
 btProcessar.addEventListener("click", () => {
